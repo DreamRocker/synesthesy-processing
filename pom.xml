@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.synesthesy</groupId>
-	<artifactId>Synesthesy-processing</artifactId>
+	<artifactId>synesthesy-processing</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -22,9 +22,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.encog</groupId>
-			<artifactId>encog-core</artifactId>
-			<version>3.1.0</version>
+			<groupId>de.synesthesy</groupId>
+			<artifactId>synesthesy-core</artifactId>
+			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.processing</groupId>
@@ -32,16 +32,6 @@
 			<version>2.0.8</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/core.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.opencsv</groupId>
-			<artifactId>opencsv</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-math3</artifactId>
-			<version>3.0</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -56,6 +46,7 @@
 					<useFile>false</useFile>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 </project>
