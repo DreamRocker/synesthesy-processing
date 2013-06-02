@@ -22,18 +22,15 @@ public class PSynesthesy implements IMidiListener, ICache{
 		try {
 			noteOn = parent.getClass().getMethod("noteOn", new Class[] { Note.class});
 		} catch(Exception e) {
-			// no such method, or an error.. which is fine, just ignore
 		}
 		
 		try {
 			noteOff = parent.getClass().getMethod("noteOff", new Class[] { Note.class });
 		} catch(Exception e) {
-			// no such method, or an error.. which is fine, just ignore
 		}
 		try {
 			midiMessageReceiver = parent.getClass().getMethod("midiReceive", new Class[] { ShortMessage.class, long.class });
 		} catch(Exception e) {
-			// no such method, or an error.. which is fine, just ignore
 		}
 	}
 	@Override
