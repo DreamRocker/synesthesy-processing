@@ -2,6 +2,8 @@ package de.synesthesy.processing;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.LinkedHashSet;
+import java.util.Vector;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -20,17 +22,28 @@ import de.synesthesy.midi.listeners.NoteOffListener;
 import de.synesthesy.music.Note.Note;
 import de.synesthesy.music.cache.CacheDispatcher;
 import de.synesthesy.music.cache.ICache;
+import de.synesthesy.music.cache.PerChannel;
+import de.synesthesy.music.cache.PressedNotes;
 
-public class PSynesthesy implements IMidiListener, ICache {
-	ConsoleHandler ch = new ConsoleHandler();
-	PApplet parent;
-	Synesthesy synesthesy;
-	Method midiMessageReceiver, noteOn, noteOff;
+public class PSynesthesy implements IMidiListener {
+	private ConsoleHandler ch = new ConsoleHandler();
+	private PApplet parent;
+	private Synesthesy synesthesy;
+	private Method midiMessageReceiver, noteOn, noteOff;
+	private PressedNotes pressedNotes;
+	private PerChannel  perChannelCache;
 
 	public PSynesthesy(PApplet parent) {
 		this.parent = parent;
 		ch.setLevel(Level.ALL);
 		synesthesy = synesthesy.getInstance();
+		
+		pressedNotes = new PressedNotes();
+		CacheDispatcher.getInstance().registerCache(pressedNotes);
+		
+		perChannelCache = new PerChannel();
+		CacheDispatcher.getInstance().registerCache(perChannelCache);
+		
 		try {
 			noteOn = parent.getClass().getMethod("noteOn",
 					new Class[] { Note.class });
@@ -47,7 +60,6 @@ public class PSynesthesy implements IMidiListener, ICache {
 					new Class[] { ShortMessage.class, long.class });
 		} catch (Exception e) {
 		}
-		CacheDispatcher.getInstance().registerCache(this);
 		for (MidiReceiver rec : MidiHandler.getInstance().getReceivers()) {
 			rec.registerListener(this);
 		}
@@ -63,48 +75,45 @@ public class PSynesthesy implements IMidiListener, ICache {
 	}
 
 	@Override
-	public void receiveMessage(ShortMessage arg0, long arg1) {
+	public void receiveMessage(ShortMessage sm, long ts) {
 		if (midiMessageReceiver != null) {
 			try {
-				midiMessageReceiver.invoke(parent, arg0, arg1);
+				midiMessageReceiver.invoke(parent, sm, ts);
 			} catch (Exception e) {
 				midiMessageReceiver = null;
 			}
 		}
-	}
-
-	@Override
-	public void addNote(Note arg0, int arg1) {
-		if (noteOn != null) {
+		if (noteOn != null && sm.getCommand() == ShortMessage.NOTE_ON){
 			try {
-				noteOn.invoke(parent, arg0);
+				Note nt = new Note(sm.getData1(), sm.getData2(), ts);
+				noteOn.invoke(parent, nt);
 			} catch (Exception e) {
 				noteOn = null;
 				e.printStackTrace();
 			}
 		}
-
-	}
-
-	@Override
-	public boolean intressed(Note arg0, int arg1) {
-		return true;
-	}
-
-	@Override
-	public boolean intressedOnUpdate(Note arg0, int arg1) {
-		return true;
-	}
-
-	@Override
-	public boolean update(Note arg0, int arg1) {
-		if (noteOff != null) {
+		
+		if (noteOff != null && sm.getCommand() == ShortMessage.NOTE_OFF){
 			try {
-				noteOff.invoke(parent, arg0);
+				Note nt = new Note(sm.getData1(), sm.getData2(), ts);
+				for (Note pNote : pressedNotes.getCache()){
+					if (nt.equals(pNote)){
+						noteOff.invoke(parent, sm);
+					}
+				}
 			} catch (Exception e) {
 				noteOff = null;
+				e.printStackTrace();
 			}
 		}
-		return false;
+		
+	}
+
+	public LinkedHashSet<Note> getPressedNotes() {
+		return pressedNotes.getCache();
+	}
+
+	public PerChannel getPerChannelCache() {
+		return perChannelCache;
 	}
 }
