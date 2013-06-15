@@ -1,4 +1,5 @@
-import de.synesthesy.PSynesthesy;
+import de.synesthesy.processing.PSynesthesy;
+import de.synesthesy.*;
 PSynesthesy synesthesy;
 
  void setup() {
@@ -8,9 +9,12 @@ PSynesthesy synesthesy;
   synesthesy = new PSynesthesy(this);
   }
 
-void noteOn(themidibus.Note nt){
-  println(nt.getTicks());
-  
+void noteOn(Note nt){
+  println(nt);
+  println("Pressed:");
+  for (Note note : synesthesy.getPressedNotes().getCache()){
+    print(note+" ");
+  }
 }
 
 void draw(){
