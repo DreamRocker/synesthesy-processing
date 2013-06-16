@@ -12,7 +12,7 @@ PSynesthesy synesthesy;
 void noteOn(Note nt){
   println(nt);
   println("Pressed:");
-  for (Note note : synesthesy.getPressedNotes().getCache()){
+  for (Note note : synesthesy.getPressedNotes()){
     print(note+" ");
   }
 }
