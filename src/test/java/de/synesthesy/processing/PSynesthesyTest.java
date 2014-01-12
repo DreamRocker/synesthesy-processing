@@ -26,7 +26,6 @@ public class PSynesthesyTest extends TestCase {
 	
 	public void testGetPressedNotesConcurent() {
 		PSynesthesy syn = new PSynesthesy(new PApplet());
-		syn.debugMode(true);
 		Note r_nt = new Note(0,128,0);
 		CacheDispatcher.getInstance().add(new Note(1,0,0), 0);
 		CacheDispatcher.getInstance().add(new Note(2,0,0), 0);
