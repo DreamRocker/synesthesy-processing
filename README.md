@@ -8,11 +8,16 @@ For a feature list see https://github.com/DreamRocker/synesthesy-core
 
 # Installation
 1. Build synesthesy-core with maven:
-   mvn install
+
+    mvn install
+
 2. Add processing-core library into your maven repo:
-   mvn install:install-file -DgroupId=org.processing -DartifactId=processing -Dversion=2.0.8 -Dpackaging=jar -Dfile=<PathToProcessing>/core.jar
+
+    mvn install:install-file -DgroupId=org.processing -DartifactId=processing -Dversion=2.0.8 -Dpackaging=jar -Dfile=<PathToProcessing>/core.jar
+
 3. Build it
-   mvn install
+
+    mvn install
 
 # Usage
 

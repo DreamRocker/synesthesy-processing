@@ -4,7 +4,7 @@
 
 	<groupId>de.synesthesy</groupId>
 	<artifactId>synesthesy-processing</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<packaging>jar</packaging>
 
 	<name>synesthesy-processing</name>
@@ -24,7 +24,7 @@
 		<dependency>
 			<groupId>de.synesthesy</groupId>
 			<artifactId>synesthesy-core</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.processing</groupId>
