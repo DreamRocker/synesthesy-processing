@@ -13,7 +13,7 @@ For a feature list see https://github.com/DreamRocker/synesthesy-core
 
 2. Add processing-core library into your maven repo:
 
-    mvn install:install-file -DgroupId=org.processing -DartifactId=processing -Dversion=2.0.8 -Dpackaging=jar -Dfile=<PathToProcessing>/core.jar
+    mvn install:install-file -DgroupId=org.processing -DartifactId=processing -Dversion=2.1.1 -Dpackaging=jar -Dfile=/Applications/Processing.app/Contents/Java/core.jar
 
 3. Build it
 
